@@ -51,8 +51,22 @@ SDL_Texture* createTexture(SDL_Texture *tex, SDL_Renderer *ren, SDL_Surface *bmp
   }
   return tex;
 }
+
+void shutdown(SDL_Texture *tex, SDL_Renderer *ren, SDL_Window *win)
+{
+  SDL_DestroyTexture(tex);
+  SDL_DestroyRenderer(ren);
+  SDL_DestroyWindow(win);
+  SDL_Quit();
+}
+
 int main(int argc, char *argv[])
 {
+  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+		printError("SDL Initialisation");
+		return 1;
+	}
+
   const char *Title = "Hello nootshell!!";
   const char *imagePath = "./noot.bmp";
 
@@ -75,9 +89,6 @@ int main(int argc, char *argv[])
     SDL_Delay(2000);
   }
 
-  SDL_DestroyTexture(tex);
-  SDL_DestroyRenderer(ren);
-  SDL_DestroyWindow(win);
-  SDL_Quit();
+  shutdown(tex, ren, win);
 }
 
